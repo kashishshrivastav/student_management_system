@@ -26,10 +26,41 @@ def addcourse(request):
             return redirect('/courses/')
 
 def dashboard(request):
-    return render(request,'dashboard.html')
+    obj = Addstudent.objects.all().count()
+    course_obj = Course.objects.all().count()
+    all_courses = Course.objects.all()
+    return render(request,'dashboard.html',{'obj':obj , 'course_obj':course_obj , 'all_courses':all_courses})
 
 def viewstudents(request):
-    return render(request,'viewstudents.html')
+    allcourses = Course.objects.all()
+    return render(request,'viewstudents.html',{'allcourses' : allcourses})
+
+def addstudent(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        mobileno = request.POST.get('mobileno')
+        degree = request.POST.get('degree')
+        college = request.POST.get('college')
+        totalamount = request.POST.get('totalamount')
+        paidamount = request.POST.get('paidamount')
+        dueamount = request.POST.get('dueamount')
+        course_id = request.POST.get('course')
+        address = request.POST.get('Address')
+        stu_courses = Course.objects.get(id=course_id)
+        if Addstudent.objects.filter(email=email).exists():
+            messages.error(request,'email already exists')
+            return redirect('/viewstudents/')
+        elif Addstudent.objects.filter(mobileno=mobileno).exists():
+            messages.error(request,'mobileno already exists')
+            return redirect('/viewstudents/')
+        else:
+            Addstudent.objects.create(name=name,email=email,mobileno=mobileno,degree=degree
+                                    ,college=college,total_amount=totalamount,
+                                    paid_amount=paidamount,due_amount=dueamount,
+                                    course=stu_courses,address=address)
+            return redirect('/viewstudents/')
+
 
 def sign_up(request):
     return render(request,'sign-up.html')
