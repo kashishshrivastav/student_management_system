@@ -10,6 +10,9 @@ urlpatterns = [
     path('signup/',views.sign_up),
     path('registration/',views.registration),
     path('login_user/',views.login),
-    path('addstudent/',views.addstudent)
-    
+    path('addstudent/',views.addstudent),
+    path('delete_student/<int:pk>/',views.delete_student),
+    path('update_page/<int:pk>/',views.update_page),
+    path('updatestudent/',views.update_view),
+    path('search/',views.search,name='search')
 ]

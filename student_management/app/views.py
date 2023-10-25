@@ -3,9 +3,9 @@ from .models import *
 from django.contrib.auth.hashers import make_password,check_password
 from django.contrib import messages
 from django.http import HttpResponse
-# import required package
 import re
-# Create your views here.
+from django.db.models import Q
+
 def index(request):
     return render(request,'index.html')
 
@@ -29,11 +29,12 @@ def dashboard(request):
     obj = Addstudent.objects.all().count()
     course_obj = Course.objects.all().count()
     all_courses = Course.objects.all()
-    return render(request,'dashboard.html',{'obj':obj , 'course_obj':course_obj , 'all_courses':all_courses})
+    return render(request,'dashboard.html',{'obj':obj , 'course_obj':course_obj ,'all_courses':all_courses})
 
 def viewstudents(request):
+    obj = Addstudent.objects.all()
     allcourses = Course.objects.all()
-    return render(request,'viewstudents.html',{'allcourses' : allcourses})
+    return render(request,'viewstudents.html',{'allcourses' : allcourses,'obj':obj})
 
 def addstudent(request):
     if request.method == "POST":
@@ -61,6 +62,10 @@ def addstudent(request):
                                     course=stu_courses,address=address)
             return redirect('/viewstudents/')
 
+
+def delete_student(request,pk):
+    Addstudent.objects.filter(id=pk).delete()
+    return redirect('/viewstudents/')
 
 def sign_up(request):
     return render(request,'sign-up.html')
@@ -98,3 +103,37 @@ def login(request):
             messages.error(request,'email not registered')
             return redirect('/')
         
+def update_page(request,pk):
+    allcourses = Course.objects.all()
+    update_student = Addstudent.objects.get(id=pk)
+    return render(request,'updatepage.html',{'update_student':update_student , 'allcourses' : allcourses})
+
+def update_view(request):
+    if request.method == "POST":
+        uid = request.POST['uid']
+        name = request.POST['name']
+        email = request.POST['email']
+        mobileno = request.POST.get('mobileno')
+        degree = request.POST.get('degree')
+        college = request.POST.get('college')
+        totalamount = request.POST.get('totalamount')
+        paidamount = request.POST.get('paidamount')
+        dueamount = request.POST.get('dueamount')
+        address = request.POST.get('Address')
+        course_id = request.POST.get('course')
+        stu_courses = Course.objects.get(id=course_id)
+        Addstudent.objects.filter(id=uid).update(name=name,email=email,mobileno=mobileno,degree=degree
+                                    ,college=college,total_amount=totalamount,
+                                    paid_amount=paidamount,due_amount=dueamount,
+                                    course=stu_courses,address=address)
+        return redirect('/viewstudents/')
+
+def search(request):
+    if 'q' in request.GET:
+        q = request.GET['q']
+        multiple_q = Q(Q(name__icontains=q) | Q(email__icontains=q)) | Q(mobileno__icontains=q)
+        stu = Addstudent.objects.filter(multiple_q)
+    else:
+        stu = Addstudent.objects.all()
+    context = {'stu':stu}
+    return render(request,'viewstudents.html',context)

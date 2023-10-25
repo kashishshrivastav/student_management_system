@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png">
+  <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+  <title>
+    Satkar Courses
+  </title>
+  <!-- Fonts and icons -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link href="{% static 'css/nucleo-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link id="pagestyle" href="{% static 'css/material-dashboard.css' %}" rel="stylesheet" />
+</head>
+<body>
+<!-- Modal -->
+<div >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Student details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+            <form role="form" action="/updatestudent/" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-6 col-md-6">
+                  <input type="hidden" name="uid" value="{{update_student.id}}"/>
+                  <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" name="name" value="{{update_student.name}}">
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" name="email" value="{{update_student.email}}"> 
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Mobile No.</label>
+                    <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" name="mobileno" value="{{update_student.mobileno}}">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                  <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">College</label>
+                    <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)"name="college" value="{{update_student.college}}">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                  <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Degree</label>
+                    <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)"name="degree" value="{{update_student.degree}}">
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Total amount</label>
+                      <input type="text" class="form-control"  id="totalamount" name="totalamount" value="{{update_student.total_amount}}">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Paid amount</label>
+                      <input type="text" class="form-control" id="paidamount" onchange="totalamountpaid()" name="paidamount" value="{{update_student.paid_amount}}">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Due amount</label>
+                      <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="dueamount"name="dueamount" value="{{update_student.due_amount}}">
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 col-md-6">
+                  <div class="input-group input-group-outline mb-3">
+                    <select class="form-select form-control" placeholder="courses" onfocus="focused(this)"
+                      onfocusout="defocused(this)" aria-label="Default select example" name="course">
+                      <option class="fw-lighter" selected>Courses</option>
+                      {% for course in allcourses %}
+                      <option value="{{course.id}}">{{course.course_name}} {{course.duration}} {{course.fees}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>    
+
+                <!-- <div class="mb-3">
+                  <label for="formFile" class="form-label">Default file input example</label>   
+                </div> -->
+                
+                <div class="input-group input-group-outline mb-3">
+                  <textarea class="form-control col-lg-12 col-md-6" placeholder="Address"
+                  id="floatingTextarea" name="Address"
+                  ></textarea>
+                </div>
+                
+                <div class="text-center">
+                  <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"
+                    data-bs-dismiss="modal">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer py-4  ">
+    <div class="container-fluid">
+      <div class="row align-items-center justify-content-lg-between">
+        <div class="col-lg-6 mb-lg-0 mb-4">
+          <div class="copyright text-center text-sm text-muted text-lg-start">
+            ©
+            <script>
+              document.write(new Date().getFullYear())
+            </script>,
+            made with <i class="fa fa-heart"></i> by
+            <a href="https://www.placiddigital.com" class="font-weight-bold" target="_blank">Placid Digital</a>
+            for a better web.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+</div>
+</main>
+
+<!-- Modal -->
+</body>
