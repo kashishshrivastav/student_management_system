@@ -78,7 +78,7 @@ def registration(request):
         if User.objects.filter(email=email).exists():
             messages.error(request,'email already registered')
             return redirect('/signup/')
-        else:   
+        else:
             if re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$])[\w\d@#$]{6,12}$", password):
                     User.objects.create(name=name,email=email,password=password)
                     messages.success(request,"user registred successfullyy")
@@ -119,7 +119,7 @@ def update_view(request):
         totalamount = request.POST.get('totalamount')
         paidamount = request.POST.get('paidamount')
         dueamount = request.POST.get('dueamount')
-        address = request.POST.get('Address')
+        address = request.POST.get('address')
         course_id = request.POST.get('course')
         stu_courses = Course.objects.get(id=course_id)
         Addstudent.objects.filter(id=uid).update(name=name,email=email,mobileno=mobileno,degree=degree
@@ -132,8 +132,34 @@ def search(request):
     if 'q' in request.GET:
         q = request.GET['q']
         multiple_q = Q(Q(name__icontains=q) | Q(email__icontains=q)) | Q(mobileno__icontains=q)
-        stu = Addstudent.objects.filter(multiple_q)
+        obj = Addstudent.objects.filter(multiple_q)
+        print(multiple_q)
+        print(obj)
     else:
-        stu = Addstudent.objects.all()
-    context = {'stu':stu}
+        obj = Addstudent.objects.all()
+    context = {'obj':obj}
     return render(request,'viewstudents.html',context)
+
+def viewtrainers(request):
+    obj = Addtrainer.objects.all()
+    allcourses = Course.objects.all()
+    return render(request,'viewtrainers.html',{'allcourses' : allcourses,'obj':obj})
+
+def addtrainer(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        mobileno = request.POST.get('mobileno')
+        work = request.POST.get('work')
+        course_id = request.POST.get('course')
+        stu_courses = Course.objects.get(id=course_id)
+        if Addtrainer.objects.filter(email=email).exists():
+            messages.error(request,'email already exists')
+            return redirect('/viewtrainers/')
+        elif Addtrainer.objects.filter(mobileno=mobileno).exists():
+            messages.error(request,'mobileno already exists')
+            return redirect('/viewtrainers/')
+        else:
+            Addtrainer.objects.create(name=name,email=email,mobileno=mobileno,
+                                    work=work,course=stu_courses)
+            return redirect('/viewtrainers/')

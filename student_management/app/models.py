@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 class User(models.Model):
     name = models.CharField(max_length=255)
@@ -25,4 +24,15 @@ class Addstudent(models.Model):
     paid_amount = models.IntegerField()
     due_amount = models.FloatField()
     course = models.ForeignKey(Course,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name 
+    
+class Addtrainer(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+    mobileno = models.IntegerField()
+    work = models.IntegerField()
+    course = models.ForeignKey(Course,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
     

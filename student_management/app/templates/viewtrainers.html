@@ -151,7 +151,7 @@
               
               <div class="text-end pt-1">
                 <a class="btn bg-gradient-dark mb-0" href="javascript:;" data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"><i class="material-icons text-sm">add</i>Add Students</a>
+                  data-bs-target="#exampleModal"><i class="material-icons text-sm">add</i>Add Trainer</a>
               </div>
               <form class="form-inline my-2 my-lg-0" action="/search/">
                 <div class="col-lg-4">
@@ -177,7 +177,7 @@
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
-                  <h6>Total Students</h6>
+                  <h6>Total Trainers</h6>
                 </div>
 
               </div>
@@ -192,16 +192,14 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mobile
                         No.</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        College</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Degree
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Work
                       </th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Course
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Course name
                       </th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fees
                       </th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Duration</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Duration
+                      </th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                           Update</th>
                           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -214,8 +212,8 @@
                       <td class="align-middle text-sm">{{i.name}}</td>
                       <td class="align-middle text-sm">{{i.email}}</td>
                       <td class="align-middle text-center text-sm">{{i.mobileno}}</td>
-                      <td class="text-center text-sm">{{i.college}}</td>
-                      <td class="text-center text-sm">{{i.degree}}</td>
+                      <td class="text-center text-sm">{{i.work}}</td>
+                      {% comment %} <td class="text-center text-sm">{{i.degree}}</td> {% endcomment %}
                       <td class="text-center text-sm">{{i.course.course_name}}</td>
                       <td class="text-center text-sm">{{i.course.fees}}</td>
                       <td class="text-center text-sm">{{i.course.duration}}</td>
@@ -239,12 +237,12 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Add Trainer</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <div class="card-body">
-                <form role="form" action="/addstudent/" method="post">
+                <form role="form" action="/addtrainer/" method="post">
                   {% csrf_token %}
                   <div class="row">
                     <div class="col-lg-6 col-md-6">
@@ -268,36 +266,11 @@
 
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">College</label>
-                        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)"name="college">
+                        <label class="form-label">Work</label>
+                        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" name="work">
                       </div>
                     </div>
-
-                    <div class="col-lg-6 col-md-6">
-                      <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Degree</label>
-                        <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)"name="degree">
-                      </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="input-group input-group-outline mb-3">
-                          <label class="form-label">Total amount</label>
-                          <input type="text" class="form-control"  id="totalamount" name="totalamount">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="input-group input-group-outline mb-3">
-                          <label class="form-label">Paid amount</label>
-                          <input type="text" class="form-control" id="paidamount" onchange="totalamountpaid()" name="paidamount">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="input-group input-group-outline mb-3">
-                          <label class="form-label">Due amount</label>
-                          <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)" id="dueamount"name="dueamount">
-                        </div>
-                    </div>
-                    
                     <div class="col-lg-6 col-md-6">
                       <div class="input-group input-group-outline mb-3">
                         <select class="form-select form-control" placeholder="courses" onfocus="focused(this)"
@@ -313,12 +286,7 @@
                     <!-- <div class="mb-3">
                       <label for="formFile" class="form-label">Default file input example</label>   
                     </div> -->
-                    
-                    <div class="input-group input-group-outline mb-3">
-                      <textarea class="form-control col-lg-12 col-md-6" placeholder="Address"
-                      id="floatingTextarea" name="Address"
-                      ></textarea>
-                    </div>
+            
                     
                     <div class="text-center">
                       <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-2 mb-0"

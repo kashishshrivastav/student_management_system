@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path,include
+from app.api.api import *
 from . import views
+
 urlpatterns = [
     path('',views.index),
     path('courses/',views.courses),
@@ -14,5 +16,11 @@ urlpatterns = [
     path('delete_student/<int:pk>/',views.delete_student),
     path('update_page/<int:pk>/',views.update_page),
     path('updatestudent/',views.update_view),
-    path('search/',views.search,name='search')
+    path('search/',views.search,name='search'),
+    path('viewtrainers/',views.viewtrainers),
+    path('addtrainer/',views.addtrainer),
+    path('reg/',RegistrationViewSet.as_view()),
+    path('show/',RegistrationShowViewSet.as_view()),
+    path('courseapi/',CourseViewSet.as_view()),
+    path('showcourse/',CourseShowViewSet.as_view())
 ]
