@@ -12,6 +12,8 @@ class Course(models.Model):
     fees = models.IntegerField()
     duration = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.course_name 
 
 class Addstudent(models.Model):
     name = models.CharField(max_length=200)
